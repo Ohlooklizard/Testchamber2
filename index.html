@@ -75,13 +75,8 @@
   display: block;
 }
     
-    .slide-controls {
-  position: absolute;
-  bottom: 8px;
-  left: 8px;
-  right: 8px;
-  z-index: 100;
-  opacity: 0.75;
+.slide-controls {
+  display: none;
 }
 
 .slide-controls input {
@@ -326,6 +321,26 @@ function slidePanel(slider) {
       document.body.style.backgroundImage = `url("background${backgroundToggle}.jpg")`;
     });
 
+    document.querySelectorAll(".photo-wrapper").forEach(wrapper => {
+
+  wrapper.addEventListener("wheel", event => {
+    event.preventDefault();
+
+    let currentY = Number(wrapper.dataset.y);
+
+    currentY += event.deltaY * 0.5;
+
+    if (currentY > 175) currentY = 175;
+    if (currentY < -525) currentY = -525;
+
+    wrapper.dataset.y = currentY;
+    wrapper.style.top = currentY + "px";
+
+    const slider = wrapper.querySelector("input[type='range']");
+    if (slider) slider.value = currentY;
+  });
+
+});
     function closeLoadingScreen() {
       document.getElementById("loadingScreen").style.display = "none";
       startBestdogAudio();
