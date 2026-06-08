@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Test Chamber 2</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      color: white;
+      background-image: url("background.jpg"); /* Background image */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat; 
+      overflow: hidden;
+    }
+
+       .title { /* TITLEEEEE */
+      position: fixed;
+      top: 18px;
+      left: 24px;
+      z-index: 50;
+      font-size: 32px;
+      font-weight: bold;
+      text-shadow: 0 0 8px black, 0 0 14px black;
+    }
+    
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+    }
+
+     .grid-container {
+      display: grid;
+      grid-template-columns: repeat(3, 190px);
+      grid-template-rows: repeat(3, 190px);
+      gap: 0;
+      background: black;
+      border: 6px solid black;
+      box-shadow: 0 0 18px rgba(0, 0, 0, 0.8);
+    }
+
+    .grid-slot {
+      width: 190px;
+      height: 190px;
+      border: 3px solid black;
+      position: relative;
+      overflow: hidden;
+      background: black;
+    }
+
+    .photo-wrapper {
+      width: 100%;
+      height: 100%;
+      cursor: grab;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .photo-wrapper:active { cursor: grabbing; }
+
+    .photo-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+      transition: transform 0.25s ease;
+    }
+
+    .grid-slot:hover .controls { opacity: 1; }
+
+    
+    .answer-box {
+      text-align: center;
+      text-shadow: 0 2px 4px black;
+    }
+
+    .answer-box label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .answer-box input {
+      padding: 6px;
+      font-size: 15px;
+      width: 175px;
+    }
+
+    .answer-box button {
+      padding: 6px 10px;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+       .bottom-left-button { /* hand */
+      position: fixed;
+      bottom: 50%;
+      left: 35px;
+      width: 120px;
+      height: 158px;
+      object-fit: cover;
+      cursor: pointer;
+      z-index: 20;
+      background: black;
+      padding: 5px;
+    }
+
+      .top-left-button { /* glados button */
+      position: fixed;
+      top: 35px;
+      right: 40px;
+      width: 130px;
+      height: auto;
+      cursor: pointer;
+      z-index: 20;
+    }
+
+      .bottom-right-button { /* bug button */
+      position: fixed;
+      bottom: 20%;
+      right: 40px;
+      width: 20px;
+      height: auto;
+      cursor: pointer;
+      z-index: 20;
+    }
+    
+       #loadingScreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+    z-index: 9999;
+    cursor: pointer;
+}
+
+#loadingScreen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+    
+  </style>
+</head>
+
+  <body>
+<div id="loadingScreen" onclick="closeLoadingScreen()">
+    <img src="loading.jpg" alt="Loading Screen">
+</div>
+  
+  <div class="title">Test Chamber 2</div>
+
+  <audio id="gladosAudio" src="glados.mp3"></audio>
+  <audio id="bestdogAudio" src="bestdog.mp3" loop></audio>
+  <audio id="bugAudio" src="bug.mp3"></audio>
+
+      <img id="gladosbutton" src="glados.jpg" alt="Green Glados" class="top-left-button" />
+  <img id="bugButton" src="bug.jpg" alt="Bug Button" class="bottom-right-button" />
+      <img id="handbutton" src="hand.jpg" alt="hand button" class="bottom-left-button" />
+
+     <div class="page">
+    <div class="grid-container">  <!-- da grid  -->
+      <div class="grid-slot"><div class="photo-wrapper" draggable="true" id="photo1" data-rotation="0"><img src="panel1.jpg" alt="Photo 1"><div class="controls"><button 
+      <div class="grid-slot"><div class="photo-wrapper" draggable="true" id="photo2" data-rotation="0"><img src="panel2.jpg" alt="Photo 2"><div class="controls"><button 
+      <div class="grid-slot"><div class="photo-wrapper" draggable="true" id="photo3" data-rotation="0"><img src="panel3.jpg" alt="Photo 3"><div class="controls"><button 
+      <div class="grid-slot"><div class="photo-wrapper" draggable="true" id="photo4" data-rotation="0"><img src="panel4.jpg" alt="Photo 4"><div class="controls"><button 
+      <div class="grid-slot"><div class="photo-wrapper" draggable="true" id="photo5" data-rotation="0"><img src="panel5.jpg" alt="Photo 5"><div class="controls"><button 
+    </div>
+
+         <form id="codeForm" class="answer-box">
+      <label for="codeInput">"What's the hidden word?"</label>   <!-- whats in the boxxxx-->
+      <input type="text" id="codeInput" placeholder="????" autocomplete="off" required />
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+        
+    <script>
+ let draggedElement = null;
+
+       const bestdogAudio = document.getElementById("bestdogAudio");
+      
+        function startbestdogAudio() {
+      bestdogAudio.volume = 0.35;
+      bestdogAudio.play().catch(() => {
+        // Browsers often block background audio until the first click/key press.
+      });
+    }
+
+    window.addEventListener("load", startbestdogAudio);
+
+    ["click", "keydown"].forEach(eventName => {
+      document.addEventListener(eventName, startbestdogAudio, { once: true });
+    });
+
+        const wrapper = button.closest(".photo-wrapper");
+      const img = wrapper.querySelector("img");
+
+        document.querySelectorAll(".photo-wrapper").forEach(wrapper => {
+      wrapper.addEventListener("dragstart", event => {
+        draggedElement = wrapper;
+        event.dataTransfer.setData("text/plain", wrapper.id);
+      });
+    });
+
+    document.querySelectorAll(".grid-slot").forEach(slot => {
+      slot.addEventListener("dragover", event => event.preventDefault());
+
+      slot.addEventListener("drop", event => {
+        event.preventDefault();
+        const currentOccupant = slot.querySelector(".photo-wrapper");
+        const originalSlot = draggedElement.parentElement;
+
+        if (currentOccupant && currentOccupant !== draggedElement) {
+          originalSlot.appendChild(currentOccupant);
+        }
+
+        slot.appendChild(draggedElement);
+      });
+    });
+
+   document.getElementById("codeForm").addEventListener("submit", event => {
+      event.preventDefault();
+
+      const userInput = document.getElementById("codeInput").value.trim();
+     const wrongAudio = document.getElementById("wrongAudio");
+      const gladosAudio = document.getElementById("gladosAudio");
+      const bugAudio = document.getElementById("bugAudio");
+
+          if (userInput === "cake") {
+        window.location.href = "https://ohlooklizard.github.io/testchamber3/";
+      } else {
+              wrongAudio.currentTime = 0;
+             wrongAudio.play();
+          }
+         });
+
+        document.getElementById("bugButton").addEventListener("click", () => {
+      const bugButton = document.getElementById("bugButton");
+      const bugAudio = document.getElementById("bugAudio");
+          
+  bucketAudio.currentTime = 0;
+      bucketAudio.play();
+    });
+
+          document.getElementById("gladosButton").addEventListener("click", () => {
+      const gladosButton = document.getElementById("gladosButton");
+      const gladosAudio = document.getElementById("gladosAudio");
+          
+  gladosAudio.currentTime = 0;
+      gladosAudio.play();
+    });
+
+       function closeLoadingScreen() {
+    document.getElementById("loadingScreen").style.display = "none";
+}
+  </script>
+</body>
+</html>
+      
