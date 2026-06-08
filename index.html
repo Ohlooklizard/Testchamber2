@@ -76,29 +76,18 @@
 }
     
     .slide-controls {
-      position: absolute;
-      bottom: 8px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 6px;
-      z-index: 10;
-      opacity: 0.25;
-      transition: opacity 0.2s ease;
-    }
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  right: 8px;
+  z-index: 100;
+  opacity: 0.75;
+}
 
-    .grid-slot:hover .slide-controls {
-      opacity: 1;
-    }
-
-    .slide-controls button {
-      cursor: pointer;
-      font-size: 18px;
-      padding: 2px 8px;
-      background: black;
-      color: white;
-      border: 1px solid white;
-    }
+.slide-controls input {
+  width: 100%;
+  cursor: pointer;
+}
 
     .answer-box {
       text-align: center;
@@ -196,9 +185,12 @@
       <div class="grid-slot">
         <div class="photo-wrapper" draggable="true" id="panel1" data-y="-175">
           <img src="panel1.jpg" alt="Panel 1">
-          <div class="slide-controls">
-            <button onclick="slidePanel(this, -20)">▲</button>
-            <button onclick="slidePanel(this, 20)">▼</button>
+<div class="grid-slot">
+  <div class="photo-wrapper" draggable="true" id="panel1" data-y="-175">
+    <img src="panel1.jpg" alt="Panel 1">
+    <div class="slide-controls">
+      <input type="range" min="-525" max="175" value="-175" step="5"
+             oninput="slidePanel(this)">
           </div>
         </div>
       </div>
@@ -206,9 +198,12 @@
       <div class="grid-slot">
         <div class="photo-wrapper" draggable="true" id="panel2" data-y="-175">
           <img src="panel2.jpg" alt="Panel 2">
-          <div class="slide-controls">
-            <button onclick="slidePanel(this, -20)">▲</button>
-            <button onclick="slidePanel(this, 20)">▼</button>
+<div class="grid-slot">
+  <div class="photo-wrapper" draggable="true" id="panel1" data-y="-175">
+    <img src="panel1.jpg" alt="Panel 1">
+    <div class="slide-controls">
+      <input type="range" min="-525" max="175" value="-175" step="5"
+             oninput="slidePanel(this)">
           </div>
         </div>
       </div>
@@ -216,9 +211,12 @@
       <div class="grid-slot">
         <div class="photo-wrapper" draggable="true" id="panel3" data-y="-175">
           <img src="panel3.jpg" alt="Panel 3">
-          <div class="slide-controls">
-            <button onclick="slidePanel(this, -20)">▲</button>
-            <button onclick="slidePanel(this, 20)">▼</button>
+<div class="grid-slot">
+  <div class="photo-wrapper" draggable="true" id="panel1" data-y="-175">
+    <img src="panel1.jpg" alt="Panel 1">
+    <div class="slide-controls">
+      <input type="range" min="-525" max="175" value="-175" step="5"
+             oninput="slidePanel(this)">
           </div>
         </div>
       </div>
@@ -226,9 +224,12 @@
       <div class="grid-slot">
         <div class="photo-wrapper" draggable="true" id="panel4" data-y="-175">
           <img src="panel4.jpg" alt="Panel 4">
-          <div class="slide-controls">
-            <button onclick="slidePanel(this, -20)">▲</button>
-            <button onclick="slidePanel(this, 20)">▼</button>
+<div class="grid-slot">
+  <div class="photo-wrapper" draggable="true" id="panel1" data-y="-175">
+    <img src="panel1.jpg" alt="Panel 1">
+    <div class="slide-controls">
+      <input type="range" min="-525" max="175" value="-175" step="5"
+             oninput="slidePanel(this)">
           </div>
         </div>
       </div>
@@ -236,9 +237,12 @@
       <div class="grid-slot">
         <div class="photo-wrapper" draggable="true" id="panel5" data-y="-175">
           <img src="panel5.jpg" alt="Panel 5">
-          <div class="slide-controls">
-            <button onclick="slidePanel(this, -20)">▲</button>
-            <button onclick="slidePanel(this, 20)">▼</button>
+<div class="grid-slot">
+  <div class="photo-wrapper" draggable="true" id="panel1" data-y="-175">
+    <img src="panel1.jpg" alt="Panel 1">
+    <div class="slide-controls">
+      <input type="range" min="-525" max="175" value="-175" step="5"
+             oninput="slidePanel(this)">
           </div>
         </div>
       </div>
@@ -295,14 +299,9 @@
       });
     });
 
-function slidePanel(button, amount) {
-  const wrapper = button.closest(".photo-wrapper");
-  let currentY = Number(wrapper.dataset.y);
-
-  currentY += amount;
-
-  if (currentY > 175) currentY = 175;
-  if (currentY < -525) currentY = -525;
+function slidePanel(slider) {
+  const wrapper = slider.closest(".photo-wrapper");
+  const currentY = Number(slider.value);
 
   wrapper.dataset.y = currentY;
   wrapper.style.top = currentY + "px";
