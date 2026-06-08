@@ -13,14 +13,14 @@
       min-height: 100vh;
       font-family: Arial, sans-serif;
       color: white;
-      background-image: url("background.jpg"); /* Background image */
+      background-image: url("background1.jpg");
       background-size: cover;
       background-position: center;
-      background-repeat: no-repeat; 
+      background-repeat: no-repeat;
       overflow: hidden;
     }
 
-       .title { /* TITLEEEEE */
+    .title {
       position: fixed;
       top: 18px;
       left: 24px;
@@ -29,7 +29,7 @@
       font-weight: bold;
       text-shadow: 0 0 8px black, 0 0 14px black;
     }
-    
+
     .page {
       min-height: 100vh;
       display: flex;
@@ -39,47 +39,70 @@
       gap: 18px;
     }
 
-     .grid-container {
+    .grid-container {
       display: grid;
-      grid-template-columns: repeat(3, 190px);
-      grid-template-rows: repeat(3, 190px);
+      grid-template-columns: repeat(5, 190px);
       gap: 0;
       background: black;
       border: 6px solid black;
-      box-shadow: 0 0 18px rgba(0, 0, 0, 0.8);
+      box-shadow: 0 0 18px rgba(0, 0, 0, 0.85);
     }
 
     .grid-slot {
       width: 190px;
-      height: 190px;
+      height: 520px;
       border: 3px solid black;
       position: relative;
       overflow: hidden;
-      background: black;
+      background: rgba(0, 0, 0, 0.65);
     }
 
     .photo-wrapper {
       width: 100%;
-      height: 100%;
+      height: 760px;
       cursor: grab;
       position: absolute;
-      top: 0;
+      top: -120px;
       left: 0;
     }
 
-    .photo-wrapper:active { cursor: grabbing; }
+    .photo-wrapper:active {
+      cursor: grabbing;
+    }
 
     .photo-wrapper img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       pointer-events: none;
-      transition: transform 0.25s ease;
+      user-select: none;
     }
 
-    .grid-slot:hover .controls { opacity: 1; }
+    .slide-controls {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 6px;
+      z-index: 10;
+      opacity: 0.25;
+      transition: opacity 0.2s ease;
+    }
 
-    
+    .grid-slot:hover .slide-controls {
+      opacity: 1;
+    }
+
+    .slide-controls button {
+      cursor: pointer;
+      font-size: 18px;
+      padding: 2px 8px;
+      background: black;
+      color: white;
+      border: 1px solid white;
+    }
+
     .answer-box {
       text-align: center;
       text-shadow: 0 2px 4px black;
@@ -104,30 +127,28 @@
       cursor: pointer;
     }
 
-       .bottom-left-button { /* hand */
+    .hand-button {
       position: fixed;
-      bottom: 50%;
+      top: 50%;
       left: 35px;
+      transform: translateY(-50%);
       width: 120px;
-      height: 158px;
-      object-fit: cover;
+      height: auto;
       cursor: pointer;
       z-index: 20;
-      background: black;
-      padding: 5px;
     }
 
-      .top-left-button { /* glados button */
+    .glados-button {
       position: fixed;
       top: 35px;
-      right: 40px;
+      left: 40px;
       width: 130px;
       height: auto;
       cursor: pointer;
       z-index: 20;
     }
 
-      .bottom-right-button { /* bug button */
+    .bug-button {
       position: fixed;
       bottom: 20%;
       right: 40px;
@@ -136,81 +157,122 @@
       cursor: pointer;
       z-index: 20;
     }
-    
-       #loadingScreen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: black;
-    z-index: 9999;
-    cursor: pointer;
-}
 
-#loadingScreen img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-    
+    #loadingScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      z-index: 9999;
+      cursor: pointer;
+    }
+
+    #loadingScreen img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   </style>
 </head>
 
-  <body>
-<div id="loadingScreen" onclick="closeLoadingScreen()">
+<body>
+  <div id="loadingScreen" onclick="closeLoadingScreen()">
     <img src="loading.jpg" alt="Loading Screen">
-</div>
-  
+  </div>
+
   <div class="title">Test Chamber 2</div>
 
   <audio id="gladosAudio" src="glados.mp3"></audio>
   <audio id="bestdogAudio" src="bestdog.mp3" loop></audio>
   <audio id="bugAudio" src="bug.mp3"></audio>
+  <audio id="wrong1Audio" src="wrong1.mp3"></audio>
+  <audio id="wrong2Audio" src="wrong2.mp3"></audio>
 
-      <img id="gladosbutton" src="glados.jpg" alt="Green Glados" class="top-left-button" />
-  <img id="bugButton" src="bug.jpg" alt="Bug Button" class="bottom-right-button" />
-      <img id="handbutton" src="hand.jpg" alt="hand button" class="bottom-left-button" />
+  <img id="gladosButton" src="glados.jpg" alt="GLaDOS Button" class="glados-button">
+  <img id="bugButton" src="bug.jpg" alt="Bug Button" class="bug-button">
+  <img id="handButton" src="hand.jpg" alt="Hand Button" class="hand-button">
 
-     <div class="page">
-    <div class="grid-container">  <!-- da grid  -->
-      <div class="grid-slot"><div class="photo-wrapper" draggable="true" id="photo1" data-rotation="0"><img src="panel1.jpg" alt="Photo 1"><div class="controls"><button 
-      <div class="grid-slot"><div class="photo-wrapper" draggable="true" id="photo2" data-rotation="0"><img src="panel2.jpg" alt="Photo 2"><div class="controls"><button 
-      <div class="grid-slot"><div class="photo-wrapper" draggable="true" id="photo3" data-rotation="0"><img src="panel3.jpg" alt="Photo 3"><div class="controls"><button 
-      <div class="grid-slot"><div class="photo-wrapper" draggable="true" id="photo4" data-rotation="0"><img src="panel4.jpg" alt="Photo 4"><div class="controls"><button 
-      <div class="grid-slot"><div class="photo-wrapper" draggable="true" id="photo5" data-rotation="0"><img src="panel5.jpg" alt="Photo 5"><div class="controls"><button 
+  <div class="page">
+    <div class="grid-container">
+      <div class="grid-slot">
+        <div class="photo-wrapper" draggable="true" id="panel1" data-y="-120">
+          <img src="panel1.jpg" alt="Panel 1">
+          <div class="slide-controls">
+            <button onclick="slidePanel(this, -20)">▲</button>
+            <button onclick="slidePanel(this, 20)">▼</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-slot">
+        <div class="photo-wrapper" draggable="true" id="panel2" data-y="-120">
+          <img src="panel2.jpg" alt="Panel 2">
+          <div class="slide-controls">
+            <button onclick="slidePanel(this, -20)">▲</button>
+            <button onclick="slidePanel(this, 20)">▼</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-slot">
+        <div class="photo-wrapper" draggable="true" id="panel3" data-y="-120">
+          <img src="panel3.jpg" alt="Panel 3">
+          <div class="slide-controls">
+            <button onclick="slidePanel(this, -20)">▲</button>
+            <button onclick="slidePanel(this, 20)">▼</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-slot">
+        <div class="photo-wrapper" draggable="true" id="panel4" data-y="-120">
+          <img src="panel4.jpg" alt="Panel 4">
+          <div class="slide-controls">
+            <button onclick="slidePanel(this, -20)">▲</button>
+            <button onclick="slidePanel(this, 20)">▼</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-slot">
+        <div class="photo-wrapper" draggable="true" id="panel5" data-y="-120">
+          <img src="panel5.jpg" alt="Panel 5">
+          <div class="slide-controls">
+            <button onclick="slidePanel(this, -20)">▲</button>
+            <button onclick="slidePanel(this, 20)">▼</button>
+          </div>
+        </div>
+      </div>
     </div>
 
-         <form id="codeForm" class="answer-box">
-      <label for="codeInput">"What's the hidden word?"</label>   <!-- whats in the boxxxx-->
-      <input type="text" id="codeInput" placeholder="????" autocomplete="off" required />
+    <form id="codeForm" class="answer-box">
+      <label for="codeInput">What's the hidden word?</label>
+      <input type="text" id="codeInput" placeholder="????" autocomplete="off" required>
       <button type="submit">Submit</button>
     </form>
   </div>
 
-        
-    <script>
- let draggedElement = null;
+  <script>
+    let draggedElement = null;
+    let wrongToggle = 1;
+    let backgroundToggle = 1;
 
-       const bestdogAudio = document.getElementById("bestdogAudio");
-      
-        function startbestdogAudio() {
+    const bestdogAudio = document.getElementById("bestdogAudio");
+
+    function startBestdogAudio() {
       bestdogAudio.volume = 0.35;
-      bestdogAudio.play().catch(() => {
-        // Browsers often block background audio until the first click/key press.
-      });
+      bestdogAudio.play().catch(() => {});
     }
 
-    window.addEventListener("load", startbestdogAudio);
+    window.addEventListener("load", startBestdogAudio);
 
     ["click", "keydown"].forEach(eventName => {
-      document.addEventListener(eventName, startbestdogAudio, { once: true });
+      document.addEventListener(eventName, startBestdogAudio, { once: true });
     });
 
-        const wrapper = button.closest(".photo-wrapper");
-      const img = wrapper.querySelector("img");
-
-        document.querySelectorAll(".photo-wrapper").forEach(wrapper => {
+    document.querySelectorAll(".photo-wrapper").forEach(wrapper => {
       wrapper.addEventListener("dragstart", event => {
         draggedElement = wrapper;
         event.dataTransfer.setData("text/plain", wrapper.id);
@@ -222,6 +284,9 @@
 
       slot.addEventListener("drop", event => {
         event.preventDefault();
+
+        if (!draggedElement) return;
+
         const currentOccupant = slot.querySelector(".photo-wrapper");
         const originalSlot = draggedElement.parentElement;
 
@@ -233,42 +298,59 @@
       });
     });
 
-   document.getElementById("codeForm").addEventListener("submit", event => {
+    function slidePanel(button, amount) {
+      const wrapper = button.closest(".photo-wrapper");
+      let currentY = Number(wrapper.dataset.y);
+
+      currentY += amount;
+
+      if (currentY > 80) currentY = 80;
+      if (currentY < -320) currentY = -320;
+
+      wrapper.dataset.y = currentY;
+      wrapper.style.top = currentY + "px";
+    }
+
+    document.getElementById("codeForm").addEventListener("submit", event => {
       event.preventDefault();
 
-      const userInput = document.getElementById("codeInput").value.trim();
-     const wrongAudio = document.getElementById("wrongAudio");
-      const gladosAudio = document.getElementById("gladosAudio");
-      const bugAudio = document.getElementById("bugAudio");
+      const userInput = document.getElementById("codeInput").value.trim().toLowerCase();
 
-          if (userInput === "cake") {
+      if (userInput === "cake") {
         window.location.href = "https://ohlooklizard.github.io/testchamber3/";
       } else {
-              wrongAudio.currentTime = 0;
-             wrongAudio.play();
-          }
-         });
+        const wrongAudio = document.getElementById(
+          wrongToggle === 1 ? "wrong1Audio" : "wrong2Audio"
+        );
 
-        document.getElementById("bugButton").addEventListener("click", () => {
-      const bugButton = document.getElementById("bugButton");
-      const bugAudio = document.getElementById("bugAudio");
-          
-  bucketAudio.currentTime = 0;
-      bucketAudio.play();
+        wrongAudio.currentTime = 0;
+        wrongAudio.play();
+
+        wrongToggle = wrongToggle === 1 ? 2 : 1;
+      }
     });
 
-          document.getElementById("gladosButton").addEventListener("click", () => {
-      const gladosButton = document.getElementById("gladosButton");
+    document.getElementById("bugButton").addEventListener("click", () => {
+      const bugAudio = document.getElementById("bugAudio");
+      bugAudio.currentTime = 0;
+      bugAudio.play();
+    });
+
+    document.getElementById("gladosButton").addEventListener("click", () => {
       const gladosAudio = document.getElementById("gladosAudio");
-          
-  gladosAudio.currentTime = 0;
+      gladosAudio.currentTime = 0;
       gladosAudio.play();
     });
 
-       function closeLoadingScreen() {
-    document.getElementById("loadingScreen").style.display = "none";
-}
+    document.getElementById("handButton").addEventListener("click", () => {
+      backgroundToggle = backgroundToggle === 1 ? 2 : 1;
+      document.body.style.backgroundImage = `url("background${backgroundToggle}.jpg")`;
+    });
+
+    function closeLoadingScreen() {
+      document.getElementById("loadingScreen").style.display = "none";
+      startBestdogAudio();
+    }
   </script>
 </body>
 </html>
-      
