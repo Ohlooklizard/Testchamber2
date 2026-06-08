@@ -183,7 +183,7 @@
     <div class="photo-wrapper" draggable="true" id="panel1" data-y="-175">
       <img src="panel1.jpg" alt="Panel 1">
       <div class="slide-controls">
-        <input type="range" min="-525" max="175" value="-175" step="5" oninput="slidePanel(this)">
+      <input type="range" min="-650" max="350" value="-175" step="1" oninput="slidePanel(this)">
       </div>
     </div>
   </div>
@@ -192,7 +192,7 @@
     <div class="photo-wrapper" draggable="true" id="panel2" data-y="-175">
       <img src="panel2.jpg" alt="Panel 2">
       <div class="slide-controls">
-        <input type="range" min="-525" max="175" value="-175" step="5" oninput="slidePanel(this)">
+      <input type="range" min="-650" max="350" value="-175" step="1" oninput="slidePanel(this)">
       </div>
     </div>
   </div>
@@ -201,7 +201,7 @@
     <div class="photo-wrapper" draggable="true" id="panel3" data-y="-175">
       <img src="panel3.jpg" alt="Panel 3">
       <div class="slide-controls">
-        <input type="range" min="-525" max="175" value="-175" step="5" oninput="slidePanel(this)">
+      <input type="range" min="-650" max="350" value="-175" step="1" oninput="slidePanel(this)">
       </div>
     </div>
   </div>
@@ -210,7 +210,7 @@
     <div class="photo-wrapper" draggable="true" id="panel4" data-y="-175">
       <img src="panel4.jpg" alt="Panel 4">
       <div class="slide-controls">
-        <input type="range" min="-525" max="175" value="-175" step="5" oninput="slidePanel(this)">
+      <input type="range" min="-650" max="350" value="-175" step="1" oninput="slidePanel(this)">
       </div>
     </div>
   </div>
@@ -219,7 +219,7 @@
     <div class="photo-wrapper" draggable="true" id="panel5" data-y="-175">
       <img src="panel5.jpg" alt="Panel 5">
       <div class="slide-controls">
-        <input type="range" min="-525" max="175" value="-175" step="5" oninput="slidePanel(this)">
+      <input type="range" min="-650" max="350" value="-175" step="1" oninput="slidePanel(this)">
       </div>
     </div>
   </div>
@@ -321,26 +321,27 @@ function slidePanel(slider) {
       document.body.style.backgroundImage = `url("background${backgroundToggle}.jpg")`;
     });
 
-    document.querySelectorAll(".photo-wrapper").forEach(wrapper => {
-
+  document.querySelectorAll(".photo-wrapper").forEach(wrapper => {
   wrapper.addEventListener("wheel", event => {
     event.preventDefault();
 
     let currentY = Number(wrapper.dataset.y);
 
-    currentY += event.deltaY * 0.5;
+    currentY += Math.sign(event.deltaY) * 8;
 
-    if (currentY > 175) currentY = 175;
-    if (currentY < -525) currentY = -525;
+    if (currentY > 350) currentY = 350;
+    if (currentY < -650) currentY = -650;
 
     wrapper.dataset.y = currentY;
     wrapper.style.top = currentY + "px";
 
     const slider = wrapper.querySelector("input[type='range']");
-    if (slider) slider.value = currentY;
+    if (slider) {
+      slider.value = currentY;
+    }
   });
-
 });
+    
     function closeLoadingScreen() {
       document.getElementById("loadingScreen").style.display = "none";
       startBestdogAudio();
